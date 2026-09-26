@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { loadAppData } from "@/lib/data";
+import { scorecardHistory } from "@/lib/scoring";
 
 export const dynamic = "force-dynamic";
 
@@ -28,5 +30,24 @@ export async function GET() {
     }
   }
 
-  return NextResponse.json({ status: "ok", timestamp: new Date().toISOString(), database });
+  // Exercise the same load + scoring path as the homepage and report where it fails.
+  let app: Record<string, unknown> = {};
+  try {
+    const data = await loadAppData();
+    const history = scorecardHistory(data.today, 8, data.activities, data.goals, data.domains);
+    app = {
+      ok: true,
+      today: data.today,
+      vision: Boolean(data.vision),
+      domains: data.domains.length,
+      goals: data.goals.length,
+      activities: data.activities.length,
+      composite: history.at(-1)?.composite,
+    };
+  } catch (e) {
+    const err = e as Error;
+    app = { ok: false, error: err.message, stack: err.stack?.split("\n").slice(0, 6) };
+  }
+
+  return NextResponse.json({ status: "ok", timestamp: new Date().toISOString(), database, app });
 }

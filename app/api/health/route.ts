@@ -5,7 +5,12 @@ import { scorecardHistory } from "@/lib/scoring";
 export const dynamic = "force-dynamic";
 
 /** Reports app + database reachability. Exposes the Supabase host only (it's public), never keys. */
-export async function GET() {
+export async function GET(req: Request) {
+  if (new URL(req.url).searchParams.get("dump") === "1") {
+    // Demo data is already public on the homepage; exposed here to debug rendering.
+    return NextResponse.json(await loadAppData());
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   let host: string | null = null;

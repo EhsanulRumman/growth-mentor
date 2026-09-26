@@ -1,6 +1,6 @@
 import type { Domain, Scorecard } from "@/lib/scoring";
 import { DOMAIN_WEEKLY_TARGET } from "@/lib/scoring";
-import { domainColor } from "./ui";
+import { domainColor } from "@/lib/colors";
 
 function fmtRange(start: string, end: string) {
   const f = (d: string) =>

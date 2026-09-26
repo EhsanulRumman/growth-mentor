@@ -4,7 +4,8 @@ import { useActionState, useEffect, useState, useTransition } from "react";
 import { deleteGoal, saveGoal, setGoalStatus, type ActionResult } from "@/app/actions";
 import type { Domain, Goal } from "@/lib/scoring";
 import { GOAL_WEEKLY_TARGET } from "@/lib/scoring";
-import { FormError, SubmitButton, domainColor } from "./ui";
+import { FormError, SubmitButton } from "./ui";
+import { domainColor } from "@/lib/colors";
 
 type Filter = "active" | "completed" | "all";
 

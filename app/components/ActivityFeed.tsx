@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import { deleteActivity } from "@/app/actions";
 import type { Activity, Domain, Goal } from "@/lib/scoring";
 import { activityPoints } from "@/lib/scoring";
-import { domainColor } from "./ui";
+import { domainColor } from "@/lib/colors";
 
 export function ActivityFeed({
   activities,
